@@ -402,6 +402,9 @@ export default {
       imageTableContextWindow: '图像与表格上下文窗口',
       imageTableContextWindowTip:
         '抓取图像与表格上下方的 N 个 token，为该 chunk 提供更丰富的背景上下文。',
+      forceVisionLlm: '图片强制使用视觉大模型',
+      forceVisionLlmTip:
+        '开启后，图片解析会跳过 OCR，直接调用 image2text/视觉模型生成可检索文本；关闭后恢复 OCR 优先流程。',
       autoMetadata: '自动元数据',
       mineruOptions: 'MinerU 选项',
       mineruParseMethod: '解析方法',

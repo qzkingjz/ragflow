@@ -397,6 +397,7 @@ class ParserConfig(Base):
     tag_kb_ids: Annotated[list[str], Field(default_factory=list)]
     topn_tags: Annotated[int, Field(default=1, ge=1, le=10)]
     filename_embd_weight: Annotated[float | None, Field(default=0.1, ge=0.0, le=1.0)]
+    force_vision_llm: Annotated[bool, Field(default=True)]
     task_page_size: Annotated[int | None, Field(default=None, ge=1)]
     pages: Annotated[list[list[int]] | None, Field(default=None)]
     ext: Annotated[dict, Field(default={})]

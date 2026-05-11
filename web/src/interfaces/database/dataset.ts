@@ -45,6 +45,7 @@ interface Parserconfig {
   graphrag: Graphrag;
   html4excel: boolean;
   image_context_size: number;
+  force_vision_llm?: boolean;
   layout_recognize: string;
   llm_id: string;
   parent_child: Parentchild;

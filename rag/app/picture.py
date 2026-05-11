@@ -34,6 +34,23 @@ ocr = OCR()
 VIDEO_EXTS = [".mp4", ".mov", ".avi", ".flv", ".mpeg", ".mpg", ".webm", ".wmv", ".3gp", ".3gpp", ".mkv"]
 
 
+def _config_enabled(value, default=True):
+    if value is None:
+        return default
+    if isinstance(value, str):
+        return value.strip().lower() not in {"0", "false", "no", "off"}
+    return bool(value)
+
+
+def _describe_image(img, tenant_id, lang):
+    cv_model_config = get_tenant_default_model_by_type(tenant_id, LLMType.IMAGE2TEXT)
+    cv_mdl = LLMBundle(tenant_id, model_config=cv_model_config, lang=lang)
+    with io.BytesIO() as img_binary:
+        img.save(img_binary, format="JPEG")
+        img_binary.seek(0)
+        return cv_mdl.describe(img_binary.read())
+
+
 def chunk(filename, binary, tenant_id, lang, callback=None, **kwargs):
     doc = {
         "docnm_kwd": filename,
@@ -43,6 +60,7 @@ def chunk(filename, binary, tenant_id, lang, callback=None, **kwargs):
 
     parser_config = kwargs.get("parser_config", {}) or {}
     image_ctx = max(0, int(parser_config.get("image_context_size", 0) or 0))
+    force_vision_llm = _config_enabled(parser_config.get("force_vision_llm"), True)
 
     if any(filename.lower().endswith(ext) for ext in VIDEO_EXTS):
         try:
@@ -70,6 +88,17 @@ def chunk(filename, binary, tenant_id, lang, callback=None, **kwargs):
                 "doc_type_kwd": "image",
             }
         )
+        if force_vision_llm:
+            try:
+                callback(0.4, "Use CV LLM to describe the picture.")
+                ans = _describe_image(img, tenant_id, lang)
+                callback(0.8, "CV LLM respond: %s ..." % ans[:32])
+                tokenize(doc, ans, eng)
+                return attach_media_context([doc], 0, image_ctx)
+            except Exception as e:
+                callback(prog=-1, msg=str(e))
+                return []
+
         bxs = ocr(np.array(img))
         txt = "\n".join([t[0] for _, t in bxs if t[0]])
         callback(0.4, "Finish OCR: (%s ...)" % txt[:12])
@@ -80,12 +109,7 @@ def chunk(filename, binary, tenant_id, lang, callback=None, **kwargs):
 
         try:
             callback(0.4, "Use CV LLM to describe the picture.")
-            cv_model_config = get_tenant_default_model_by_type(tenant_id, LLMType.IMAGE2TEXT)
-            cv_mdl = LLMBundle(tenant_id, model_config=cv_model_config, lang=lang)
-            with io.BytesIO() as img_binary:
-                img.save(img_binary, format="JPEG")
-                img_binary.seek(0)
-                ans = cv_mdl.describe(img_binary.read())
+            ans = _describe_image(img, tenant_id, lang)
             callback(0.8, "CV LLM respond: %s ..." % ans[:32])
             txt += "\n" + ans
             tokenize(doc, txt, eng)

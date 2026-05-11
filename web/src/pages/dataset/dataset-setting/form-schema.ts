@@ -32,6 +32,7 @@ export const formSchema = z
         topn_tags: z.number().optional(),
         toc_extraction: z.boolean().optional(),
         image_table_context_window: z.number().optional(),
+        force_vision_llm: z.boolean().optional(),
         overlapped_percent: z.number().optional(),
         // MinerU-specific options
         mineru_parse_method: z.enum(['auto', 'txt', 'ocr']).optional(),

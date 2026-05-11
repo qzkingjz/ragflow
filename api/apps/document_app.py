@@ -581,6 +581,7 @@ async def run():
                         doc.parser_config["llm_id"] = kb.parser_config.get("llm_id")
                         doc.parser_config["enable_metadata"] = kb.parser_config.get("enable_metadata", False)
                         doc.parser_config["metadata"] = kb.parser_config.get("metadata", {})
+                        doc.parser_config["force_vision_llm"] = kb.parser_config.get("force_vision_llm", True)
                         DocumentService.update_parser_config(doc.id, doc.parser_config)
                     doc_dict = doc.to_dict()
                     DocumentService.run(tenant_id, doc_dict, kb_table_num_map)

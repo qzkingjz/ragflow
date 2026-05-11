@@ -10,6 +10,7 @@ export interface IChangeParserConfigRequestBody {
   toc_extraction?: boolean;
   image_table_context_window?: number;
   image_context_size?: number;
+  force_vision_llm?: boolean;
   table_context_size?: number;
 }
 

@@ -456,6 +456,9 @@ Example: A 1 KB message with 1024-dim embedding uses ~9 KB. The 5 MB default lim
       imageTableContextWindow: 'Image & table context window',
       imageTableContextWindowTip:
         'Captures N tokens of text above and below the image & table to provide richer background context.',
+      forceVisionLlm: 'Force vision model for images',
+      forceVisionLlmTip:
+        'When enabled, image parsing skips OCR and directly uses the image2text/vision model. When disabled, it keeps the original OCR-first flow.',
       autoMetadata: 'Auto metadata',
       mineruOptions: 'MinerU options',
       mineruParseMethod: 'Parse method',

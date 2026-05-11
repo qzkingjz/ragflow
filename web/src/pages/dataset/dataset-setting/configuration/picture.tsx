@@ -3,12 +3,13 @@ import {
   AutoQuestionsFormField,
 } from '@/components/auto-keywords-form-field';
 import { ConfigurationFormContainer } from '../configuration-form-container';
-import { AutoMetadata } from './common-item';
+import { AutoMetadata, ForceVisionLlmToggle } from './common-item';
 
 export function PictureConfiguration() {
   return (
     <ConfigurationFormContainer>
       <>
+        <ForceVisionLlmToggle />
         <AutoMetadata />
         <AutoKeywordsFormField></AutoKeywordsFormField>
         <AutoQuestionsFormField></AutoQuestionsFormField>

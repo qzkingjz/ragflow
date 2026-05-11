@@ -370,6 +370,43 @@ export function ImageContextWindow() {
   );
 }
 
+export function ForceVisionLlmToggle() {
+  const { t } = useTranslate('knowledgeConfiguration');
+  const form = useFormContext();
+
+  return (
+    <FormField
+      control={form.control}
+      name="parser_config.force_vision_llm"
+      render={({ field }) => (
+        <FormItem className=" items-center space-y-0 ">
+          <div className="flex items-center">
+            <FormLabel
+              tooltip={t('forceVisionLlmTip')}
+              className="text-sm whitespace-wrap w-1/4"
+            >
+              {t('forceVisionLlm')}
+            </FormLabel>
+            <div className="text-muted-foreground w-3/4">
+              <FormControl>
+                <Switch
+                  checked={field.value ?? true}
+                  onCheckedChange={field.onChange}
+                  data-testid="ds-settings-parser-force-vision-llm-switch"
+                />
+              </FormControl>
+            </div>
+          </div>
+          <div className="flex pt-1">
+            <div className="w-1/4"></div>
+            <FormMessage />
+          </div>
+        </FormItem>
+      )}
+    />
+  );
+}
+
 export function OverlappedPercent() {
   return (
     <SliderInputFormField

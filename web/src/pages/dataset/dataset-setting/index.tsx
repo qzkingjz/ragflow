@@ -32,7 +32,11 @@ import LinkDataSource, {
   IDataSourceNodeProps,
 } from './components/link-data-source';
 import { MainContainer } from './configuration-form-container';
-import { ChunkMethodItem, ParseTypeItem } from './configuration/common-item';
+import {
+  ChunkMethodItem,
+  ForceVisionLlmToggle,
+  ParseTypeItem,
+} from './configuration/common-item';
 import { formSchema } from './form-schema';
 import { GeneralForm } from './general-form';
 import { useFetchKnowledgeConfigurationOnMount } from './hooks';
@@ -81,6 +85,7 @@ export default function DatasetSettings() {
         topn_tags: 3,
         toc_extraction: false,
         image_table_context_window: 0,
+        force_vision_llm: true,
         overlapped_percent: 0,
         // MinerU-specific defaults
         mineru_parse_method: 'auto',
@@ -324,7 +329,12 @@ export default function DatasetSettings() {
                     )}
 
                     {/* <Divider /> */}
-                    {parseType === ParseType.BuiltIn && <ChunkMethodForm />}
+                    {parseType === ParseType.BuiltIn && (
+                      <>
+                        <ChunkMethodForm />
+                        <ForceVisionLlmToggle />
+                      </>
+                    )}
 
                     {/* <LinkDataPipeline
                     data={pipelineData}

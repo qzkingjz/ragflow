@@ -23,12 +23,12 @@ import {
   AutoMetadata,
   ChunkMethodItem,
   EnableTocToggle,
+  ForceVisionLlmToggle,
   ImageContextWindow,
   ParseTypeItem,
 } from '@/pages/dataset/dataset-setting/configuration/common-item';
 import { zodResolver } from '@hookform/resolvers/zod';
 import omit from 'lodash/omit';
-import {} from 'module';
 import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -122,6 +122,7 @@ export function ChunkMethodDialog({
         html4excel: z.boolean().optional(),
         toc_extraction: z.boolean().optional(),
         image_table_context_window: z.coerce.number().optional(),
+        force_vision_llm: z.boolean().optional(),
         mineru_parse_method: z.enum(['auto', 'txt', 'ocr']).optional(),
         mineru_formula_enable: z.boolean().optional(),
         mineru_table_enable: z.boolean().optional(),
@@ -359,6 +360,10 @@ export function ChunkMethodDialog({
                       <EnableTocToggle />
                       <ImageContextWindow />
                     </>
+                  )}
+
+                  {selectedTag === DocumentParserType.Picture && (
+                    <ForceVisionLlmToggle />
                   )}
 
                   {showAutoKeywords(selectedTag) && (
