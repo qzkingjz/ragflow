@@ -327,7 +327,7 @@ export const useUpdateKnowledge = (shouldFetchList = false) => {
         use_parent_child !== undefined ||
         enable_children !== undefined
           ? {
-              children_delimiter,
+              children_delimiter: children_delimiter || '\n',
               use_parent_child: use_parent_child ?? enable_children,
             }
           : undefined,

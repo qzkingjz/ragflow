@@ -230,7 +230,7 @@ export function ChunkMethodDialog({
         // Unset children delimiter if this option is not enabled
         children_delimiter: parserConfig.enable_children
           ? parserConfig.children_delimiter
-          : '',
+          : '\n',
         pages: parserConfig?.pages?.map((x: any) => [x.from, x.to]) ?? [],
       },
     };
