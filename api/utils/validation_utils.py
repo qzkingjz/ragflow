@@ -366,6 +366,11 @@ class ParentChildConfig(Base):
     use_parent_child: Annotated[bool, Field(default=False)]
     children_delimiter: Annotated[str, Field(default=r"\n", min_length=1)]
 
+    @field_validator("children_delimiter", mode="before")
+    @classmethod
+    def normalize_children_delimiter(cls, value):
+        return r"\n" if value in (None, "") else value
+
 
 class AutoMetadataField(Base):
     """Schema for a single auto-metadata field configuration."""
